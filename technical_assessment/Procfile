@@ -1,0 +1,1 @@
+web: gunicorn technical_assessment.wsgi
