@@ -17,3 +17,12 @@ pipenv shell
 cd technical_assessment/
 python3 manage.py runserver
 ```
+### Screenshots of the admin dashboards
+Daily User Metrics
+<img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/daily_metrics_slider.png"></img>
+
+Weekly User Metrics
+<img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/weekly_metrics_slider.png"></img>
+
+Weekly User Metrics
+<img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/monthly_metrics_slider.png"></img>
