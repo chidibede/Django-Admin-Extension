@@ -18,6 +18,10 @@ cd technical_assessment/
 python3 manage.py runserver
 ```
 ### Screenshots of the admin dashboards
+
+Custom users list with change active status button attached
+<img src="https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/search_user.png"></img>
+
 Daily User Metrics
 <img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/daily_metrics_slider.png"></img>
 
