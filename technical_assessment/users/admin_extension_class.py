@@ -83,7 +83,7 @@ class CustomUserAdmin(UserAdmin):
         return HttpResponseRedirect("../")
 
     def changelist_view(self, request, extra_context=None):
-        # Aggregate new subscribers per day
+        # Aggregate new users per day
         daily_chart_data = (
             User.objects.annotate(date=TruncDay("date_joined"))
             .values("date")
@@ -91,7 +91,7 @@ class CustomUserAdmin(UserAdmin):
             .order_by("-date")
         )
 
-        # Aggregate new subscribers per day
+        # Aggregate new users per week
         weekly_chart_data = (
             User.objects.annotate(date=TruncWeek("date_joined"))
             .values("date")
@@ -99,7 +99,7 @@ class CustomUserAdmin(UserAdmin):
             .order_by("-date")
         )
 
-        # Aggregate new subscribers per day
+        # Aggregate new users per month
         monthly_chart_data = (
             User.objects.annotate(date=TruncMonth("date_joined"))
             .values("date")
