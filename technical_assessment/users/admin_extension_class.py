@@ -40,6 +40,9 @@ class CustomUserAdmin(UserAdmin):
         return custom_admin_urls + urls
 
     def change_active_status(self, request, user):
+        """
+        A class method that changes the active status of users
+        """
         user = self.model.objects.get(username=user)
         if user.is_active == True:
             user.is_active = False
@@ -61,6 +64,9 @@ class CustomUserAdmin(UserAdmin):
         )
 
     def send_bulk_mails(self, request):
+         """
+        A class method that sends out bulk mails to the active users
+        """
         subject = request.POST.get("subject")
         message = request.POST.get("body")
         users = User.objects.all()
@@ -83,6 +89,9 @@ class CustomUserAdmin(UserAdmin):
         return HttpResponseRedirect("../")
 
     def changelist_view(self, request, extra_context=None):
+         """
+        A class method that changes the default admin template and adds chart        """
+            
         # Aggregate new users per day
         daily_chart_data = (
             User.objects.annotate(date=TruncDay("date_joined"))
