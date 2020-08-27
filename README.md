@@ -26,3 +26,6 @@ Weekly User Metrics
 
 Weekly User Metrics
 <img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/monthly_metrics_slider.png"></img>
+
+Customized Django Admin Actions
+<img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/actions.png"></img>
