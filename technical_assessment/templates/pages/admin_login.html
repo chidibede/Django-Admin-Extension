@@ -1,0 +1,42 @@
+{% extends 'pages/base.html' %} {% block content %}
+<div class="container-fluid h-100">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-lg" id="homepage">
+      <h1 class="text-center text-light mb-5 mt-5">SAVESTS ADMIN</h1>
+      <br /><br /><br />
+      <div class="btndiv d-flex justify-content-center">
+        <p class="text-light">
+          Username: <span class="text-secondary">root</span>
+        </p>
+      </div>
+
+      <div class="btndiv d-flex justify-content-center">
+        <p class="text-light">
+          Password: <span class="text-secondary"> password </span>
+        </p>
+      </div>
+
+      <div class="btndiv d-flex justify-content-center mt-5">
+        <a
+          class="btn btn-primary btn-lg homebtn"
+          href="{% url 'admin:index' %}"
+        >
+          Admin site
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row navbar navbar-fixed-bottom author">
+    <div class="col-lg">
+      <h4 class="author text-center text-muted">
+        Powered by Savests Tech Assessment
+      </h4>
+      <p class="text-center">
+        <a href="https://www.savests.com" target="_blank">www.savests.com</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

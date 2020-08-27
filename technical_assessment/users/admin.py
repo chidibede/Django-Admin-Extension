@@ -41,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
 
     # set how the users should be displayed in a tabular form
     list_display = ("username", "email", "is_staff", "is_active", "activate_users")
-    change_list_template = "admin/users/User/change_list.html"
+    change_list_template = "users/admin/User/change_list.html"
 
     def get_urls(self):
         # override the get urls and set change_active_methods
