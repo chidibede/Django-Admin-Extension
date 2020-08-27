@@ -1,9 +1,7 @@
 ## SAVESTS TECHNICAL ASSESSMENT ON DJANGO WEB FRAMEWORK
 
-The Link to the deployed assessment
-```
-https://chidibede-djangoadmin-extended.herokuapp.com/
-```
+The Link to the deployed assessment is https://chidibede-djangoadmin-extended.herokuapp.com/
+
 Your task is to extend the Django-admin user interface doing the following:
 Create a superuser with credentials username: root password: password
 Extend the Django admin dashboard page to show user metrics, example is the number of users created over the past 24hours, past week and past month. (You can add additional metrics to the admin dashboard at your discretion). 
