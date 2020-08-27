@@ -1,0 +1,287 @@
+{% extends 'admin/change_list.html' %} {% load static %}
+
+<!-- These 2 simulatneous blocks customize admin template by adding chart js -->
+
+{% block extrahead %} {{ block.super }}
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+<script>
+  {% comment %} Daily User Metrics {% endcomment %}
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('myChart').getContext('2d');
+
+      const chartData = {{ daily_chart_data | safe }};
+
+      // Parse the dates to JS
+      chartData.forEach((d) => {
+        d.x = new Date(d.date);
+      });
+
+      // Render the chart
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          datasets: [
+            {
+              label: 'new users',
+              data: chartData,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            xAxes: [
+              {
+                type: 'time',
+                time: {
+                  unit: 'day',
+                  round: 'day',
+                  displayFormats: {
+                    day: 'MMM D',
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+        },
+      });
+    });
+
+  {% comment %} Weekly User Metrics {% endcomment %}
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('myChart2').getContext('2d');
+
+      const chartData = {{ weekly_chart_data | safe }};
+
+      // Parse the dates to JS
+      chartData.forEach((d) => {
+        d.x = new Date(d.date);
+      });
+
+      // Render the chart
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          datasets: [
+            {
+              label: 'new users',
+              data: chartData,
+              backgroundColor: 'rgba(255, 206, 86, 0.6)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            xAxes: [
+              {
+                type: 'time',
+                time: {
+                  unit: 'day',
+                  round: 'day',
+                  displayFormats: {
+                    day: 'MMM D',
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+        },
+      });
+    });
+
+
+    {% comment %} Monthly User Metrics {% endcomment %}
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('myChart3').getContext('2d');
+
+      const chartData = {{ monthly_chart_data | safe }};
+
+      // Parse the dates to JS
+      chartData.forEach((d) => {
+        d.x = new Date(d.date);
+      });
+
+      // Render the chart
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          datasets: [
+            {
+              label: 'new users',
+              data: chartData,
+              backgroundColor: 'rgba(153, 102, 255, 0.6)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            xAxes: [
+              {
+                type: 'time',
+                time: {
+                  unit: 'day',
+                  round: 'day',
+                  displayFormats: {
+                    day: 'MMM D',
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
+          },
+        },
+      });
+    });
+</script>
+{% endblock %}
+
+<!-- This block renders the chart -->
+{% block content %}
+<!-- Render our chart -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li
+      data-target="#carouselExampleIndicators"
+      data-slide-to="0"
+      class="active"
+    ></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <h2>Daily User Metrics</h2>
+      <div style="width: 60%">
+        <canvas
+          style="margin-bottom: 30px; width: 60%; height: 50%"
+          id="myChart"
+        ></canvas>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <h2>Weekly User Metrics</h2>
+      <div style="width: 60%">
+        <canvas
+          style="margin-bottom: 30px; width: 60%; height: 50%"
+          id="myChart2"
+        ></canvas>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <h2>Monthly User Metrics</h2>
+      <div style="width: 60%">
+        <canvas
+          style="margin-bottom: 30px; width: 60%; height: 50%"
+          id="myChart3"
+        ></canvas>
+      </div>
+    </div>
+  </div>
+  <a
+    class="carousel-control-prev"
+    href="#carouselExampleIndicators"
+    role="button"
+    data-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a
+    class="carousel-control-next"
+    href="#carouselExampleIndicators"
+    role="button"
+    data-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- Renders the rest of the ChangeList view -->
+{{ block.super }} {% endblock %} {% block footer %}
+
+<div style="margin-top: 0px">
+  <div style="margin-left: 38px">
+    <h2>Send out Emails</h2>
+    <form action="send_bulk_mails/" id="mail" method="post">
+      {% csrf_token %}
+      <input type="text" name="subject" placeholder="Subject" /><br />
+      <br />
+      <textarea
+        id="body"
+        cols="60"
+        rows="7"
+        name="body"
+        placeholder="Compose your mail"
+      ></textarea
+      ><br />
+      <button
+        style="
+          background-color: rgb(81, 120, 179);
+          color: white;
+          margin-top: 5px;
+          padding: 5px;
+        "
+        type="submit"
+        class="send_email_btn"
+      >
+        Send Email
+      </button>
+    </form>
+  </div>
+</div>
+<br />
+
+<!-- Render the rest of the ChangeList view by calling block.super -->
+{{ block.super }} {% endblock %}

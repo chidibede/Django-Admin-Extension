@@ -1,12 +1,21 @@
+import json
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 from django.urls import path
-from .admin_extension_functions import set_active, set_inactive, set_staff_status, remove_staff_status
+from .admin_extension_functions import (
+    set_active,
+    set_inactive,
+    set_staff_status,
+    remove_staff_status,
+)
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from django.db.models.functions import TruncDay, TruncWeek, TruncMonth
+from django.db.models.aggregates import Count
+from django.core.serializers.json import DjangoJSONEncoder
 
 # change django admin site headers and titles
 admin.site.site_header = "SaVests Admin Dashboard"
@@ -32,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
 
     # set how the users should be displayed in a tabular form
     list_display = ("username", "email", "is_staff", "is_active", "activate_users")
-    change_list_template = "users/users_changelist_template.html"
+    change_list_template = "admin/users/User/change_list.html"
 
     def get_urls(self):
         # override the get urls and set change_active_methods
@@ -85,3 +94,37 @@ class CustomUserAdmin(UserAdmin):
 
         self.message_user(request, "Emails sent successfully")
         return HttpResponseRedirect("../")
+
+    def changelist_view(self, request, extra_context=None):
+        # Aggregate new subscribers per day
+        daily_chart_data = (
+            User.objects.annotate(date=TruncDay("date_joined"))
+            .values("date")
+            .annotate(y=Count("id"))
+            .order_by("-date")
+        )
+
+        # Aggregate new subscribers per day
+        weekly_chart_data = (
+            User.objects.annotate(date=TruncWeek("date_joined"))
+            .values("date")
+            .annotate(y=Count("id"))
+            .order_by("-date")
+        )
+
+        # Aggregate new subscribers per day
+        monthly_chart_data = (
+            User.objects.annotate(date=TruncMonth("date_joined"))
+            .values("date")
+            .annotate(y=Count("id"))
+            .order_by("-date")
+        )
+
+        # Serialize and attach the chart data to the template context
+        as_json_daily = json.dumps(list(daily_chart_data), cls=DjangoJSONEncoder)
+        as_json_weekly = json.dumps(list(weekly_chart_data), cls=DjangoJSONEncoder)
+        as_json_monthly = json.dumps(list(monthly_chart_data), cls=DjangoJSONEncoder)
+        extra_context = extra_context or {"daily_chart_data": as_json_daily, "weekly_chart_data": as_json_weekly, "monthly_chart_data": as_json_monthly}
+
+        # Call the superclass changelist_view to render the page
+        return super().changelist_view(request, extra_context=extra_context)
