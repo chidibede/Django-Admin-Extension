@@ -33,3 +33,6 @@ Weekly User Metrics
 
 Customized Django Admin Actions
 <img src= "https://res.cloudinary.com/chidibede/image/upload/v1598537350/savests/actions.png"></img>
+
+Send mail
+<img src="https://res.cloudinary.com/chidibede/image/upload/v1598537981/savests/send_mail.png"></img>
